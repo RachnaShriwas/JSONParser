@@ -36,6 +36,19 @@ public class JSONParser {
 	}
 	
 	/**
+	 * Go to next character in the jsonString
+	 */
+	private void next()
+	{
+		
+		if(i < jsonString.length()-1) {
+			ch = jsonString.charAt(++i);
+			
+		}
+		else ch = EMPTY_CHAR;
+	}
+	
+	/**
 	 * Checks whether the string is a valid value conforming to JSON Grammar
 	 * 
 	 * @return true: Valid value in json grammar
@@ -83,18 +96,6 @@ public class JSONParser {
 		return true;
 	}
 	
-	/**
-	 * Go to next character in the jsonString
-	 */
-	private void next()
-	{
-		
-		if(i < jsonString.length()-1) {
-			ch = jsonString.charAt(++i);
-			
-		}
-		else ch = EMPTY_CHAR;
-	}
 	
 	/**
 	 * Checks whether the string is a valid object conforming to JSON Grammar

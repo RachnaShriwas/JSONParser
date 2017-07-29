@@ -21,7 +21,7 @@ public class Main {
 		try {
 			br = new BufferedReader(new FileReader(args[0]));
 			String jsonString = "";
-			String s = null;
+			String s = "";
 			
 			while((s = br.readLine()) != null)
 				jsonString += s;
