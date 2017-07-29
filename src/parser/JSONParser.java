@@ -15,10 +15,15 @@ public class JSONParser {
 	}
 	
 	boolean validate() {
-		return isValidValue();
+		try {
+			return isValidValue();
+		}catch(JSONException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 	
-	private boolean isValidValue() {
+	private boolean isValidValue() throws JSONException {
 
 		switch(ch) {
 			case '{': {
@@ -53,8 +58,7 @@ public class JSONParser {
 						return false;
 					return true;
 				} else {
-					System.out.println("Something wrong at position: " + (i+1));
-					return false;
+					throw new JSONException("Something wrong at position: " + (i+1));
 				}
 			}
 		}
@@ -71,7 +75,7 @@ public class JSONParser {
 		else ch = EMPTY_CHAR;
 	}
 	
-	private boolean isValidObject() {
+	private boolean isValidObject() throws JSONException {
 		
 		
 		if(ch == '{') {
@@ -87,8 +91,7 @@ public class JSONParser {
 					next();
 				if(isValidString()) {
 					if(ch != ':'){
-						System.out.println("Object property expecting \":\" at position: " + (i+1));
-						return false;
+						throw new JSONException("Object property expecting \":\" at position: " + (i+1));
 					}
 					next();
 					if(isValidValue()) { 
@@ -98,13 +101,11 @@ public class JSONParser {
 						}
 					}
 					else {
-						System.out.println("Invalid value of object at position: " + (i+1));
-						return false;
+						throw new JSONException("Invalid value of object at position: " + (i+1));
 					}
 				}
 				else {
-					System.out.println("Invalid string of object at position: " + (i+1));
-					return false;
+					throw new JSONException("Invalid string of object at position: " + (i+1));
 				}
 			} while(ch == ','); 
 
@@ -114,7 +115,7 @@ public class JSONParser {
 			return false;
 	}
 	
-	private boolean isValidArray() {
+	private boolean isValidArray() throws JSONException {
 		ArrayList<Character> arr = new ArrayList<Character>();
 		
 		if(ch == '[') {
@@ -134,15 +135,14 @@ public class JSONParser {
 				}
 			}while(ch == ',');
 			
-			System.out.println("Invalid array at position: " + (i+1));
-			return false;
+			throw new JSONException("Invalid array at position: " + (i+1));
 		}
 		else
 			return false;
 	}
 	
 	@SuppressWarnings("serial")
-	private boolean isValidString() {
+	private boolean isValidString() throws JSONException {
 		HashMap<Character, Character> escapes = new HashMap<Character, Character>(){{
 												put('b', '\b');
 												put('n', '\n');
@@ -181,15 +181,13 @@ public class JSONParser {
 				next();
 			}
 			
-			System.out.println("Invalid string at position: " + (i+1));
-			return false;
+			throw new JSONException("Invalid string at position: " + (i+1));
 		}
 		else
-			System.out.println("Invalid string at position: " + (i+1));
-		return false;
+			throw new JSONException("Invalid string at position: " + (i+1));
 	}
 	
-	private boolean isValidBool() {
+	private boolean isValidBool() throws JSONException {
 		if(ch == 't') {
 			next();
 			if(ch == 'r') {
@@ -201,13 +199,13 @@ public class JSONParser {
 						return true;
 					}
 					else
-						System.out.println("Invalid Boolean at position: " + (i+1));
+						throw new JSONException("Invalid Boolean at position: " + (i+1));
 				}
 				else
-					System.out.println("Invalid Boolean at position: " + (i+1));
+					throw new JSONException("Invalid Boolean at position: " + (i+1));
 			}
 			else
-				System.out.println("Invalid Boolean at position: " + (i+1));
+				throw new JSONException("Invalid Boolean at position: " + (i+1));
 		}
 		else if(ch == 'f') {
 			next();
@@ -222,22 +220,22 @@ public class JSONParser {
 							return true;
 						}
 						else
-							System.out.println("Invalid Boolean at position: " + (i+1));
+							throw new JSONException("Invalid Boolean at position: " + (i+1));
 					}
 					else
-						System.out.println("Invalid Boolean at position: " + (i+1));
+						throw new JSONException("Invalid Boolean at position: " + (i+1));
 				}
 				else
-					System.out.println("Invalid Boolean at position: " + (i+1));
+					throw new JSONException("Invalid Boolean at position: " + (i+1));
 			}
 			else
-				System.out.println("Invalid Boolean at position: " + (i+1));
+				throw new JSONException("Invalid Boolean at position: " + (i+1));
 		}
 		
 		return false;
 	}
 	
-	private boolean isValidNUll() {
+	private boolean isValidNUll() throws JSONException{
 		next();
 		if(ch == 'u') {
 			next();
@@ -248,15 +246,14 @@ public class JSONParser {
 					return true;
 				}
 				else 
-					System.out.println("Invalid NULL at position: " + (i+1));
+					throw new JSONException("Invalid NULL at position: " + (i+1));
 					
 			}
 			else
-				System.out.println("Invalid NULL at position: " + (i+1));
+				throw new JSONException("Invalid NULL at position: " + (i+1));
 		}
 		else
-			System.out.println("Invalid NULL at position: " + (i+1));
-		return false;
+			throw new JSONException("Invalid NULL at position: " + (i+1));
 	}
 	
 	private String getDigits() {
