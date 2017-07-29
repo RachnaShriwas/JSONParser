@@ -4,9 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class JSONParser {
+	
+	//contents of the JSON file in a string
 	String jsonString;
+	
+	//index of the jsonString
 	static int i = 0;
+	
+	//read jsonString character by character
 	private char ch;
+	
+	//invalid character or end of file
 	private static final char EMPTY_CHAR = '\u0000';
 	
 	public JSONParser(String s) {
@@ -14,6 +22,10 @@ public class JSONParser {
 		ch = jsonString.charAt(0);
 	}
 	
+	/**
+	 * 
+	 * @return true : jsonString is correct
+	 */
 	boolean validate() {
 		try {
 			return isValidValue();
@@ -23,6 +35,12 @@ public class JSONParser {
 		}
 	}
 	
+	/**
+	 * Checks whether the string is a valid value conforming to JSON Grammar
+	 * 
+	 * @return true: Valid value in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidValue() throws JSONException {
 
 		switch(ch) {
@@ -65,6 +83,9 @@ public class JSONParser {
 		return true;
 	}
 	
+	/**
+	 * Go to next character in the jsonString
+	 */
 	private void next()
 	{
 		
@@ -75,6 +96,12 @@ public class JSONParser {
 		else ch = EMPTY_CHAR;
 	}
 	
+	/**
+	 * Checks whether the string is a valid object conforming to JSON Grammar
+	 * 
+	 * @return true: Valid object in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidObject() throws JSONException {
 		
 		
@@ -115,6 +142,12 @@ public class JSONParser {
 			return false;
 	}
 	
+	/**
+	 * Checks whether the string is a valid array conforming to JSON Grammar
+	 * 
+	 * @return true: Valid array in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidArray() throws JSONException {
 		ArrayList<Character> arr = new ArrayList<Character>();
 		
@@ -141,8 +174,14 @@ public class JSONParser {
 			return false;
 	}
 	
-	@SuppressWarnings("serial")
+	/**
+	 * Checks whether the string is a valid string conforming to JSON Grammar
+	 * 
+	 * @return true: Valid string in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidString() throws JSONException {
+		@SuppressWarnings("serial")
 		HashMap<Character, Character> escapes = new HashMap<Character, Character>(){{
 												put('b', '\b');
 												put('n', '\n');
@@ -153,6 +192,7 @@ public class JSONParser {
 												put('\\', '\\');
 												}};
 		
+		@SuppressWarnings("unused")
 		String s = "";
 		
 		if(ch == '\"') {
@@ -187,6 +227,12 @@ public class JSONParser {
 			throw new JSONException("Invalid string at position: " + (i+1));
 	}
 	
+	/**
+	 * Checks whether the string is a valid boolean conforming to JSON Grammar
+	 * 
+	 * @return true: Valid boolean in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidBool() throws JSONException {
 		if(ch == 't') {
 			next();
@@ -235,6 +281,12 @@ public class JSONParser {
 		return false;
 	}
 	
+	/**
+	 * Checks whether the string is a valid null conforming to JSON Grammar
+	 * 
+	 * @return true: Valid null in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidNUll() throws JSONException{
 		next();
 		if(ch == 'u') {
@@ -256,6 +308,10 @@ public class JSONParser {
 			throw new JSONException("Invalid NULL at position: " + (i+1));
 	}
 	
+	/**
+	 * Helper method for isValidNumber()
+	 * @return: digits in String format
+	 */
 	private String getDigits() {
 		String num = "";
 		while(ch>='0' && ch<='9')
@@ -266,6 +322,13 @@ public class JSONParser {
 		return num;
 		
 	}
+	
+	/**
+	 * Checks whether the string is a valid number conforming to JSON Grammar
+	 * 
+	 * @return true: Valid number in json grammar
+	 * @throws JSONException
+	 */
 	private boolean isValidNumber() {
 		String num = "";
 		
@@ -310,6 +373,11 @@ public class JSONParser {
 		}
 	}
 	
+	/**
+	 * parse the string and create a json object if the string is valid
+	 * 
+	 * @return: valid JSON object
+	 */
 	public JSONObject parseJson() {
 		//TODO
 		return null;

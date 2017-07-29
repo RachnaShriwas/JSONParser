@@ -5,10 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.crypto.NullCipher;
-
 public class Main {
 
+	/**
+	 * 
+	 * @param args : File name of the JSON File with absolute file path
+	 * 
+	 * Reads the file and calls validate() method of class JSONParser.
+	 * If validate() returns true then the JSON File is correct
+	 * 
+	 */
 	public static void main(String[] args) {
 		BufferedReader br = null;
 		
