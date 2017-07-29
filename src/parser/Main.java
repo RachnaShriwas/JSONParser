@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.crypto.NullCipher;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -33,14 +35,18 @@ public class Main {
 			
 		} catch (IOException e) {
 			
-			System.out.println("Something wrong with reading file!!");
-			
+			System.out.println("Something wrong with reading the file!!");
+		
+		} catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("Please pass the file name as the argument.");
 		}finally {
 			
 			try {
 				br.close();
-			}catch(IOException | NullPointerException ex) {
+			}catch(IOException e) {
 				System.out.println("Attention!! The file could not be closed!!");
+			}catch(NullPointerException e) {
+				System.out.println("Oops! I could not find the file.");
 			}
 			
 		}
